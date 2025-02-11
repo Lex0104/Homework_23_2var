@@ -26,6 +26,18 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "Lex0104"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Lex0104/Homework_23_2var.git",
+    "accountId": "30e6caa5-adee-46a1-9bd4-a150725d4111"
+  }
+}]]></component>
   <component name="ProjectColorInfo"><![CDATA[{
   "associatedIndex": 6
 }]]></component>
@@ -111,12 +123,30 @@
       <option name="project" value="LOCAL" />
       <updated>1739226290337</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="add myproject&#10;add catalog&#10;add static&#10;.gitignore&#10;poetry.lock&#10;pyproject.toml">
+      <option name="closed" value="true" />
+      <created>1739264501419</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1739264501419</updated>
+    </task>
+    <task id="LOCAL-00003" summary="update settings &#10;add .env">
+      <option name="closed" value="true" />
+      <created>1739299830284</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1739299830284</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add" />
-    <option name="LAST_COMMIT_MESSAGE" value="add" />
+    <MESSAGE value="add myproject&#10;add catalog&#10;add static&#10;.gitignore&#10;poetry.lock&#10;pyproject.toml" />
+    <MESSAGE value="update settings &#10;add .env" />
+    <option name="LAST_COMMIT_MESSAGE" value="update settings &#10;add .env" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
