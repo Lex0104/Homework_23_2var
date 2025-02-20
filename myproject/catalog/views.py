@@ -82,4 +82,8 @@ def add_category(request):
 
         category.save()
         return HttpResponse(f"Категория {name_category} успешно добавлена!")
+<<<<<<< HEAD
     return render(request, 'add_category_user.html')
+=======
+    return render(request, 'add_category_user.html')
+>>>>>>> origin/features/homework_24
