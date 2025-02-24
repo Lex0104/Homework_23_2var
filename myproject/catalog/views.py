@@ -1,85 +1,98 @@
-from django.core.paginator import Paginator
+from django import forms
+from django.forms import ModelForm
 from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
+from django.urls import reverse_lazy
+from django.views import View
+from django.views.generic import ListView, DetailView, CreateView
 
 from .models import Product, Contacts, Category
 
 
-def home(request):
-    latest_products = Product.objects.order_by('created_at')[:5]
-    products_list = Product.objects.all()
-
-    for product in latest_products:
-        print(
-            f'{product.name_product}: {product.description}. Дата создания: {product.created_at}. Цена: {product.price}')
-
-    paginator = Paginator(products_list, 3)
-    page_number = request.GET.get('page')
-    products = paginator.get_page(page_number)
-
-    return render(request, 'home.html', {'products': products})
+class ProductListView(ListView):
+    model = Product
+    paginate_by = 3
 
 
-def contacts(request):
-    contacts_list = Contacts.objects.all()
+class ProductDetailView(DetailView):
+    model = Product
 
-    if request.method == 'POST':
+
+class ContactsView(View):
+    template_name = 'catalog/contacts.html'
+
+    def get(self, request):
+        contacts_list = Contacts.objects.all()
+        return render(request, self.template_name, {'contacts': contacts_list})
+
+    def post(self, request):
         name = request.POST.get('name')
         phone = request.POST.get('phone')
         message = request.POST.get('message')
         return HttpResponse(f"Спасибо, {name}! Мы обязательно с вами свяжемся.")
-    return render(request, 'contacts.html', {'contacts': contacts_list})
 
 
-def product_detail(request, pk):
-    product = get_object_or_404(Product, id=pk)
-    context = {
-        'product_name': product.name_product,
-        'description': product.description,
-        'image': product.image,
-        'category': product.category,
-        'price': product.price,
-        'created_at': product.created_at,
-        'updated_at': product.updated_at
-    }
-    return render(request, 'product_detail.html', context=context)
+class ProductForm(ModelForm):
+    class Meta:
+        model = Product
+        fields = ("name_product", "description", "image", "price", "category")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields["name_product"].widget.attrs.update({
+            'placeholder': 'Введите название продукта',
+            'class': "form-control"
+        })
+
+        self.fields["description"].widget = forms.Textarea(attrs={'rows': 3})
+
+        self.fields["description"].widget.attrs.update({
+            'placeholder': "Введите описание продукта",
+            'class': "form-control"
+        })
+
+        self.fields["category"].widget.attrs.update({
+            'class': "form-select",
+        })
+
+        self.fields["price"].widget.attrs.update({
+            'placeholder': "Введите цену продукта",
+            'class': "form-control"
+        })
+
+        self.fields["image"].widget.attrs.update({
+            'class': "form-control"
+        })
 
 
-def add_product(request):
-
-    if request.method == 'POST':
-        name_product = request.POST.get('name_product')
-        category_id = request.POST.get('category')
-        description = request.POST.get('description')
-        price = request.POST.get('price')
-        image = request.FILES.get('image')
-
-        category = Category.objects.get(id=category_id)
-        product = Product(
-            name_product=name_product,
-            category=category,
-            description=description,
-            price=price,
-            image=image,
-        )
-
-        product.save()
-        return HttpResponse(f"Товар {name_product} успешно добавлен!")
-    category = Category.objects.all()
-    return render(request, 'add_product_user.html', {'categories': category})
+class ProductCreateView(CreateView):
+    template_name = 'catalog/product_form.html'
+    form_class = ProductForm
+    success_url = reverse_lazy('category:home')
 
 
-def add_category(request):
+class CategoryForm(ModelForm):
+    class Meta:
+        model = Category
+        fields = ("name_category", "description")
 
-    if request.method == "POST":
-        name_category = request.POST.get('name_category')
-        description = request.POST.get("description")
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
-        category = Category(
-            name_category = name_category,
-            description = description
-        )
+        self.fields["name_category"].widget.attrs.update({
+            'placeholder': 'Введите название категории',
+            'class': "form-control"
+        })
 
-        category.save()
-        return HttpResponse(f"Категория {name_category} успешно добавлена!")
-    return render(request, 'add_category_user.html')
+        self.fields["description"].widget = forms.Textarea(attrs={'rows': 3})
+
+        self.fields["description"].widget.attrs.update({
+            'placeholder': 'Введите описание категории',
+            'class': "form-control"
+        })
+
+class CategoryCreateView(CreateView):
+    template_name = 'catalog/category_form.html'
+    form_class = CategoryForm
+    success_url = reverse_lazy('category:create_product')
