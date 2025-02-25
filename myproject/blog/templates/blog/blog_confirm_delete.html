@@ -1,11 +1,11 @@
 {% extends 'catalog/base.html' %}
-{% load my_tags %}
+{% load static %}
 
 {% block title %}Удаление{% endblock %}
 
 {% block content %}
 <div class="row text-center">
-  <h1>Вы действительно хотите удалить блог "{{ object.title }}"?</h1>
+  <h1>Вы действительно хотите удалить блог "{{object.title}}"?</h1>
 </div>
 <div class="container">
   <form method="post" action="" class="form-floating" enctype="multipart/form-data">
