@@ -1,0 +1,18 @@
+{% extends 'catalog/base.html' %}
+{% load my_tags %}
+
+{% block title %}Информация о продукте{% endblock %}
+
+{% block content %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">Данные о продукте</h1>
+</div>
+<h1>Информация о продукте</h1>
+<p>Изображение: <img src="{{ object.image | media_filter }}" style="width: 50px" alt="{{ object.name_product }}"></p>
+<p>Название: {{ object.name_product }}</p>
+<p>Категория: {{ object.category }}</p>
+<p>Описание: {{ object.description }}</p>
+<p>Стоимость: {{ object.price }}$</p>
+<p>Дата создания: {{ object.created_at }}</p>
+<p>Дата последнего изменения: {{ object.updated_at }}</p>
+{% endblock %}
