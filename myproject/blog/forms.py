@@ -1,4 +1,3 @@
-
 from django.forms.models import ModelForm
 from myproject.blog.models import Blog
 

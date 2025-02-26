@@ -47,14 +47,14 @@ class BlogForm(ModelForm):
 class BlogCreateView(CreateView):
     template_name = 'blog/blog_form.html'
     form_class = BlogForm
-    success_url = reverse_lazy('blog:blogs_list')
+    success_url = reverse_lazy('blog:blog_list')
 
 
 class BlogUpdateView(UpdateView):
     model = Blog
     form_class = BlogForm
     template_name = 'blog/blog_form.html'
-    success_url = reverse_lazy('blog:blogs_list')
+    success_url = reverse_lazy('blog:blog_list')
 
     def get_success_url(self):
         return reverse('blog:blog_detail', args=[self.kwargs.get('pk')])
@@ -62,4 +62,4 @@ class BlogUpdateView(UpdateView):
 
 class BlogDeleteView(DeleteView):
     model = Blog
-    success_url = reverse_lazy('blog:blogs_list')
+    success_url = reverse_lazy('blog:blog_list')

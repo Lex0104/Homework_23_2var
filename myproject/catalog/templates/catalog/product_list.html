@@ -1,5 +1,5 @@
 {% extends 'catalog/base.html' %}
-{% load static %}
+{% load my_tags %}
 
 {% block title %}Каталог{% endblock %}
 
@@ -20,6 +20,7 @@
                     <div class="card-body">
                         <h1 class="card-title pricing-card-title">$ {{ product.price }}</h1>
                         <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                            <li> <img src="{{ product.image | media_filter }}" style="width: 100px"></li>
                             <li>- {{ product.description|truncatechars:100 }}</li>
                         </ul>
                         <a href="/product/{{ product.id }}">

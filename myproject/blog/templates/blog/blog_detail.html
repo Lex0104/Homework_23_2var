@@ -1,5 +1,5 @@
 {% extends 'catalog/base.html' %}
-{% load static %}
+{% load my_tags %}
 
 {% block title %}{{ object.title }}{% endblock %}
 
@@ -13,7 +13,7 @@
                 </div>
                 <div class="card-body">
                     <p>{{ object.content }}</p>
-                    <p> <img src="{{ media.blog.блог1.jpg }}" style="width: 500px" alt="{{ blog.title }}"></p>
+                    <p> <img src="{{ object.preview | media_filter }}" style="width: 500px" alt="{{ blog.title }}"></p>
                     <a class="p-2 btn btn-primary" href="/blogs/">Назад</a>
                 </div>
             </div>
