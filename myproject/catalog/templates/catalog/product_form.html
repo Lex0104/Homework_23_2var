@@ -1,0 +1,53 @@
+{% extends 'catalog/base.html' %}
+
+{% block title %}
+{% if object %}
+Редактирование
+{% else %}
+Новый продукт
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="row text-center">
+  {% if object %}
+  <h1>Редактируйте данные продукта</h1>
+  {% else %}
+  <h1>Новый продукт</h1>
+  {% endif %}
+</div>
+<div class="container">
+  <form method="post" action="" class="form-floating" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="row">
+      <div class="col-6">
+        <form method="post" action="" class="form-floating" enctype="multipart/form-data">
+          <div class="card">
+            <div class="card-body">
+              {% csrf_token %}
+              {{ form.as_p }}
+            </div>
+            <div class="mb-3 px-3">
+              <a href="{% url 'catalog:create_category' %}">
+                <button type="button" class="btn btn-block btn-outline-secondary" >Добавить категорию</button>
+              </a>
+            </div>
+            <div class="px-3 mb-1">
+              <button type="submit" class="btn btn-success">
+                {% if object %}
+                Сохранить
+                <a class="link" href="/">
+                  <button type="button" class="btn btn-danger">Отмена</button>
+                </a>
+                {% else %}
+                Добавить продукт
+                {% endif %}
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}
