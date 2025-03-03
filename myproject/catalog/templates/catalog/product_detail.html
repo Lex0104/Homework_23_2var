@@ -15,4 +15,11 @@
 <p>Стоимость: {{ object.price }}$</p>
 <p>Дата создания: {{ object.created_at }}</p>
 <p>Дата последнего изменения: {{ object.updated_at }}</p>
+<div class="d-flex">
+    <a class="link" href="/product/{{ product.id }}/update/">Редактировать</a>
+</div>
+<div class="d-flex">
+    <a class="link" href="/product/{{ product.id }}/delete/">Удалить</a>
+</div>
+<a class="link" href="/">Назад</a>
 {% endblock %}

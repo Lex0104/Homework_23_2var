@@ -1,12 +1,11 @@
-from django import forms
-from django.forms import ModelForm
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views import View
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from .models import Product, Contacts, Category
+from .form import ProductForm, CategoryForm
+from .models import Product, Contacts
 
 
 class ProductListView(ListView):
@@ -16,6 +15,33 @@ class ProductListView(ListView):
 
 class ProductDetailView(DetailView):
     model = Product
+
+
+class ProductCreateView(CreateView):
+    template_name = 'catalog/product_form.html'
+    form_class = ProductForm
+    success_url = reverse_lazy('catalog:home')
+
+
+class ProductUpdateView(UpdateView):
+    model = Product
+    template_name = 'catalog/product_form.html'
+    form_class = ProductForm
+    success_url = reverse_lazy('catalog:home')
+
+    def get_success_url(self):
+        return reverse('catalog:product_detail', args=[self.kwargs.get('pk')])
+
+
+class ProductDeleteView(DeleteView):
+    model = Product
+    success_url = reverse_lazy('catalog:home')
+
+
+class CategoryCreateView(CreateView):
+    template_name = 'catalog/category_form.html'
+    form_class = CategoryForm
+    success_url = reverse_lazy('category:create_product')
 
 
 class ContactsView(View):
@@ -30,69 +56,3 @@ class ContactsView(View):
         phone = request.POST.get('phone')
         message = request.POST.get('message')
         return HttpResponse(f"Спасибо, {name}! Мы обязательно с вами свяжемся.")
-
-
-class ProductForm(ModelForm):
-    class Meta:
-        model = Product
-        fields = ("name_product", "description", "image", "price", "category")
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        self.fields["name_product"].widget.attrs.update({
-            'placeholder': 'Введите название продукта',
-            'class': "form-control"
-        })
-
-        self.fields["description"].widget = forms.Textarea(attrs={'rows': 3})
-
-        self.fields["description"].widget.attrs.update({
-            'placeholder': "Введите описание продукта",
-            'class': "form-control"
-        })
-
-        self.fields["category"].widget.attrs.update({
-            'class': "form-select",
-        })
-
-        self.fields["price"].widget.attrs.update({
-            'placeholder': "Введите цену продукта",
-            'class': "form-control"
-        })
-
-        self.fields["image"].widget.attrs.update({
-            'class': "form-control"
-        })
-
-
-class ProductCreateView(CreateView):
-    template_name = 'catalog/product_form.html'
-    form_class = ProductForm
-    success_url = reverse_lazy('category:home')
-
-
-class CategoryForm(ModelForm):
-    class Meta:
-        model = Category
-        fields = ("name_category", "description")
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        self.fields["name_category"].widget.attrs.update({
-            'placeholder': 'Введите название категории',
-            'class': "form-control"
-        })
-
-        self.fields["description"].widget = forms.Textarea(attrs={'rows': 3})
-
-        self.fields["description"].widget.attrs.update({
-            'placeholder': 'Введите описание категории',
-            'class': "form-control"
-        })
-
-class CategoryCreateView(CreateView):
-    template_name = 'catalog/category_form.html'
-    form_class = CategoryForm
-    success_url = reverse_lazy('category:create_product')
