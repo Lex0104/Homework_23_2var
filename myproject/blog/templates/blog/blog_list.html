@@ -20,13 +20,15 @@
                 </div>
                 <div class="card-body">
                     <p>{{ blog.content |truncatechars:220 }}</p>
-                     <p> <img src="{{ blog.preview | media_filter }}" style="width: 500px" alt="{{ blog.title }}"></p>
+                    <p> <img src="{{ blog.preview | media_filter }}" style="width: 500px" alt="{{ blog.title }}"></p>
                     <a class="link" href="/blogs/{{ blog.id }}">Читать далее</a>
                     <div class="d-flex">
+                        {% if perms.blog.change_blog %}
                         <a class="link" href="/blogs/{{ blog.id }}/update/">Редактировать</a>
                     </div>
                     <div class="d-flex">
                         <a class="link" href="/blogs/{{ blog.id }}/delete/">Удалить</a>
+                        {% endif %}
                     </div>
                     <div class="d-flex align-items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">

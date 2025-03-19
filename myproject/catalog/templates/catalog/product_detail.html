@@ -16,10 +16,12 @@
 <p>Дата создания: {{ object.created_at }}</p>
 <p>Дата последнего изменения: {{ object.updated_at }}</p>
 <div class="d-flex">
+    {% if product.owner == request.user %}
     <a class="link" href="/product/{{ product.id }}/update/">Редактировать</a>
 </div>
 <div class="d-flex">
     <a class="link" href="/product/{{ product.id }}/delete/">Удалить</a>
+    {% endif %}
 </div>
 <a class="link" href="/">Назад</a>
 {% endblock %}

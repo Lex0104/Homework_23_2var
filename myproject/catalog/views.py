@@ -1,10 +1,12 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from .form import ProductForm, CategoryForm
+from .forms import ProductForm, CategoryForm, ProductModeratorForm
 from .models import Product, Contacts
 
 
@@ -13,17 +15,21 @@ class ProductListView(ListView):
     paginate_by = 3
 
 
-class ProductDetailView(DetailView):
+class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
     template_name = 'catalog/product_form.html'
     form_class = ProductForm
     success_url = reverse_lazy('catalog:home')
 
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
 
-class ProductUpdateView(UpdateView):
+
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     template_name = 'catalog/product_form.html'
     form_class = ProductForm
@@ -32,13 +38,29 @@ class ProductUpdateView(UpdateView):
     def get_success_url(self):
         return reverse('catalog:product_detail', args=[self.kwargs.get('pk')])
 
+    def get_form_class(self):
+        user = self.request.user
+        if user == self.object.owner:
+            return ProductForm
+        if user.groups.filter(name='Product Moderator').exists():
+            return ProductModeratorForm
+        raise PermissionDenied
 
-class ProductDeleteView(DeleteView):
+
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
     success_url = reverse_lazy('catalog:home')
 
+    def get_form_class(self):
+        user = self.request.user
+        if user == self.object.owner:
+            return ProductForm
+        if user.groups.filter(name='Product Moderator').exists():
+            return ProductModeratorForm
+        raise PermissionDenied
 
-class CategoryCreateView(CreateView):
+
+class CategoryCreateView(LoginRequiredMixin, CreateView):
     template_name = 'catalog/category_form.html'
     form_class = CategoryForm
     success_url = reverse_lazy('category:create_product')
