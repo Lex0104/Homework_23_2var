@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import UserPassesTestMixin
 
 from .forms import ProductForm, CategoryForm, ProductModeratorForm
 from .models import Product, Contacts
@@ -47,17 +48,12 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
         raise PermissionDenied
 
 
-class ProductDeleteView(LoginRequiredMixin, DeleteView):
+class ProductDeleteView(UserPassesTestMixin, DeleteView):
     model = Product
-    success_url = reverse_lazy('catalog:home')
 
-    def get_form_class(self):
-        user = self.request.user
-        if user == self.object.owner:
-            return ProductForm
-        if user.groups.filter(name='Product Moderator').exists():
-            return ProductModeratorForm
-        raise PermissionDenied
+    def test_func(self):
+        product = self.get_object()
+        return self.request.user == product.owner or self.request.user.groups.filter(name='Модератор продуктов').exists()
 
 
 class CategoryCreateView(LoginRequiredMixin, CreateView):

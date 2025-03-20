@@ -16,7 +16,7 @@
 <p>Дата создания: {{ object.created_at }}</p>
 <p>Дата последнего изменения: {{ object.updated_at }}</p>
 <div class="d-flex">
-    {% if product.owner == request.user %}
+    {% if product.owner == request.user or request.user.groups.filter(name='Модератор продуктов').exists %}
     <a class="link" href="/product/{{ product.id }}/update/">Редактировать</a>
 </div>
 <div class="d-flex">
