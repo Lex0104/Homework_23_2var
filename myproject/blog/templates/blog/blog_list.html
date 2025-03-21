@@ -1,0 +1,46 @@
+{% extends 'catalog/base.html' %}
+{% load my_tags %}
+
+{% block title %}Блоги{% endblock %}
+
+{% block content %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">Блоги</h1>
+    <p class="lead">Блоги - это место, где вы можете поделиться личным опытом в программировании, создании, продаже, а также узнать
+        что-то новое.</p>
+    <a class="p-2 btn btn-primary" href="/blogs/create/">Создать новый блог</a>
+</div>
+<div class="container">
+    <div class="row d-flex justify-content-center">
+    {% for blog in object_list %}
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4>{{ blog.title }}</h4>
+                </div>
+                <div class="card-body">
+                    <p>{{ blog.content |truncatechars:220 }}</p>
+                    <p> <img src="{{ blog.preview | media_filter }}" style="width: 500px" alt="{{ blog.title }}"></p>
+                    <a class="link" href="/blogs/{{ blog.id }}">Читать далее</a>
+                    <div class="d-flex">
+                        {% if perms.blog.change_blog %}
+                        <a class="link" href="/blogs/{{ blog.id }}/update/">Редактировать</a>
+                    </div>
+                    <div class="d-flex">
+                        <a class="link" href="/blogs/{{ blog.id }}/delete/">Удалить</a>
+                        {% endif %}
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                          <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
+                          <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+                        </svg>
+                        <p class="mb-0">{{ blog.counter_views }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'catalog/base.html' %}
+
+{% block title %}Вход{% endblock %}
+
+{% block content %}
+<div class="row text-center">
+  <h1>Введите данные для входа</h1>
+</div>
+<div class="container">
+  <form method="post" action="" class="form-floating" enctype="multipart/form-data">
+    <div class="row">
+        <form method="post" action="" class="form-floating" enctype="multipart/form-data">
+          <div class="card">
+            <div class="card-body">
+              {% csrf_token %}
+              {{ form.as_p }}
+            </div>
+            <div class="px-3 mb-1">
+              <button type="submit" class="btn btn-success">
+                Войти
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+  </form>
+</div>
+{% endblock %}

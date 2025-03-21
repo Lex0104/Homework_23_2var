@@ -1,0 +1,67 @@
+[
+{
+    "model": "catalog.product",
+    "pk": 1,
+    "fields": {
+        "name_product": "Хранилище на 250ГБ",
+        "description": "Хранит данные на удаленном сервере до заполнения 250ГБ",
+        "image": "",
+        "category": 3,
+        "price": 50,
+        "created_at": "2025-01-30",
+        "updated_at": "2025-01-30T15:47:55.817Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 2,
+    "fields": {
+        "name_product": "Хранилище на 500ГБ",
+        "description": "Хранит данные на удаленном сервере до заполнения 500ГБ",
+        "image": "",
+        "category": 3,
+        "price": 100,
+        "created_at": "2025-01-30",
+        "updated_at": "2025-01-30T15:48:33.075Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 4,
+    "fields": {
+        "name_product": "Удобный сервис рассылок демо",
+        "description": "Неограниченая лицензия",
+        "image": "",
+        "category": 4,
+        "price": 60,
+        "created_at": "2025-01-30",
+        "updated_at": "2025-01-30T16:30:47.393Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 5,
+    "fields": {
+        "name_product": "Удобный сервис рассылок",
+        "description": "Неограниченая лицензия, поддержка, усановка на сервер, получение обновлений",
+        "image": "",
+        "category": 4,
+        "price": 140,
+        "created_at": "2025-01-30",
+        "updated_at": "2025-01-30T16:22:46.982Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 6,
+    "fields": {
+        "name_product": "Сервис защиты от спама",
+        "description": "Неограниченная лицензия, поддержка, получение обновлений",
+        "image": "",
+        "category": 4,
+        "price": 90,
+        "created_at": "2025-01-30",
+        "updated_at": "2025-01-30T16:00:37.563Z"
+    }
+}
+]
