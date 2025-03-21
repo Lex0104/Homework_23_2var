@@ -2,9 +2,10 @@ from django.core.mail import send_mail
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, DetailView, UpdateView
 
-from .settings import EMAIL_HOST_USER
+from config.settings import EMAIL_HOST_USER
 from .forms import CustomUserCreationForm, UserForm
-from .models import User
+from users.models import User
+
 
 
 class RegisterView(CreateView):
