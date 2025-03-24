@@ -3,8 +3,8 @@ from django.core.exceptions import PermissionDenied
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 
-from .forms import BlogForm
-from .models import Blog
+from blog.forms import BlogForm
+from blog.models import Blog
 
 
 class BlogsListView(ListView):

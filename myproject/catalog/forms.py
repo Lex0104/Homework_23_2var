@@ -2,8 +2,9 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.forms import ModelForm
 
-from .models import Product, Category
-from .validators import validate_price
+from catalog.models import Product, Category
+from catalog.validators import validate_price
+
 
 class ProductForm(ModelForm):
 
