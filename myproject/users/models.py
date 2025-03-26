@@ -4,7 +4,6 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 
 class User(AbstractUser):
-    username = None
     email = models.EmailField(unique=True, verbose_name="Email")
 
     avatar = models.ImageField(upload_to='users/images', verbose_name='Аватар', blank=True, null=True)
@@ -12,7 +11,7 @@ class User(AbstractUser):
     country = models.CharField(max_length=60, verbose_name='Страна', blank=True, null=True)
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ["username"]
 
     class Meta:
         verbose_name = "Пользователь"
