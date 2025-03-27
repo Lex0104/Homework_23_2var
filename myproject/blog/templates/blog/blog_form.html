@@ -1,0 +1,46 @@
+{% extends 'catalog/base.html' %}
+{% load my_tags %}
+
+{% block title %}
+{% if object %}
+Редактирование
+{% else %}
+Новый блог!
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="row text-center">
+  {% if object %}
+  <h1>Редактируйте свой блог</h1>
+  {% else %}
+  <h1>Создайте свой новый блог!</h1>
+  {% endif %}
+</div>
+<div class="container">
+  <form method="post" action="" class="form-floating" enctype="multipart/form-data">
+    <div class="row">
+        <form method="post" action="" class="form-floating" enctype="multipart/form-data">
+          <div class="card">
+            <div class="card-body">
+              {% csrf_token %}
+              {{ form.as_p }}
+            </div>
+            <div class="px-3 mb-1">
+              <button type="submit" class="btn btn-success">
+                {% if object %}
+                Сохранить изменения
+                <a class="link" href="/blogs/">
+                  <button type="button" class="btn btn-danger">Отмена</button>
+                </a>
+                {% else %}
+                Создать блог
+                {% endif %}
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+  </form>
+</div>
+{% endblock %}
