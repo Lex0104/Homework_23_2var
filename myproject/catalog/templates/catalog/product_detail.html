@@ -16,11 +16,12 @@
 <p>Дата создания: {{ object.created_at }}</p>
 <p>Дата последнего изменения: {{object.updated_at }}</p>
 <div class="d-flex">
-    {% if perms.catalog.can_unpublish_product %}
-    <a class="link" href="/product/{{ product.id }}/update/">Редактировать</a>
+    {% if perms.catalog.can_unpublish_product or user == object.owner %}
+    <a class="link" href="/product/{{ object.id }}/update/">Редактировать</a>
 </div>
 <div class="d-flex">
-    <a class="link" href="/product/{{ product.id }}/delete/">Удалить</a>
+    {% if perms.catalog.delete_product or user == object.owner %}
+    <a class="link" href="/product/{{ object.id }}/delete/">Удалить</a>
     {% endif %}
 </div>
 <a class="link" href="/">Назад</a>

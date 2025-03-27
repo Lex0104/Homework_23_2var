@@ -8,6 +8,7 @@ from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.cache import cache_page
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import UserPassesTestMixin
 
 from .forms import ProductForm, CategoryForm, ProductModeratorForm
 from .models import Product, Contacts, Category
@@ -59,17 +60,13 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
         raise PermissionDenied
 
 
-class ProductDeleteView(LoginRequiredMixin, DeleteView):
+class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Product
     success_url = reverse_lazy('catalog:home')
 
-    def get_form_class(self):
+    def test_func(self):
         user = self.request.user
-        if user == self.object.owner:
-            return ProductForm
-        if user.groups.filter(name='Product Moderator').exists():
-            return ProductModeratorForm
-        raise PermissionDenied
+        return user == self.object.owner or user.groups.filter ( name='Product Moderator' ).exists ()
 
 
 class ProductsByCategoryView(ListView):
